@@ -3,7 +3,6 @@ CFLAGS = -Wall -Werror -Wextra -std=c++17
 
 
 all:
-	$(CC) $(CFLAGS) *.c -o main
-	./main
+	$(CC) $(CFLAGS) src/*.cpp
 
 

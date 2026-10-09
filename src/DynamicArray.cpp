@@ -43,11 +43,11 @@ void Array::subArray(const Array& other) {
 }
 
 void Array::print() {
-    for (int i = 0; i < length; i++) std::cout << data[i] << " ";
+    for (size_t i = 0; i < length; i++) std::cout << data[i] << " ";
     std::cout << "\n";
 }
 
-void Array::set(int index, int value) {
+void Array::set(size_t index, int value) {
     if (index < 0 || index > length - 1) {
         std::cerr << "Index out of range";
         return;
@@ -59,7 +59,7 @@ void Array::set(int index, int value) {
     data[index] = value;
 }
 
-int Array::get(int index) {
+int Array::get(size_t index) {
     if (index < 0 || index > length - 1) return -9999;
     return data[index];
 }

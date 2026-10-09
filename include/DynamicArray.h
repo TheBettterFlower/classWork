@@ -8,8 +8,8 @@ public:
     Array(const Array& other);
 
     void print();
-    void set(int index, int value);
-    int get(int index);
+    void set(size_t index, int value);
+    int get(size_t index);
     void push_back(int value);
     void addArray(const Array& other);
     void subArray(const Array& other);
