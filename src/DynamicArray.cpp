@@ -66,6 +66,6 @@ int Array::get(size_t index) {
 
 
 Array::~Array () {
-    data = nullptr;
     delete[] data;
+    data = nullptr;
 }
