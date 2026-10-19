@@ -15,8 +15,7 @@ Array::Array(const Array& other) {
 
 void Array::push_back(int value) {
     if (value < -100 || value > 100) {
-        std::cerr << "Invalid value";
-        return;
+        throw std::invalid_argument("Invalid argument");
     }
     length += 1;
     int * new_data = new int[length];
@@ -29,15 +28,15 @@ void Array::push_back(int value) {
 }
 
 void Array::addArray(const Array& other) {
-    int len = (length < other.length) ? length : other.length;
-    for(int i = 0; i < len; i++){
+    size_t len = (length < other.length) ? length : other.length;
+    for(size_t i = 0; i < len; i++){
         data[i] += other.data[i];
     }
 }
 
 void Array::subArray(const Array& other) {
-    int len = (length < other.length) ? length : other.length;
-    for(int i = 0; i < len; i++){
+    size_t len = (length < other.length) ? length : other.length;
+    for(size_t i = 0; i < len; i++){
         data[i] -= other.data[i];
     }
 }
@@ -48,19 +47,17 @@ void Array::print() {
 }
 
 void Array::set(size_t index, int value) {
-    if (index < 0 || index > length - 1) {
-        std::cerr << "Index out of range";
-        return;
+    if (index >= length) {
+        throw std::out_of_range("Out of range");
     }
     if (value < -100 || value > 100) {
-        std::cerr << "Invalid value";
-        return;
+        throw std::invalid_argument("Invalid argument");
     }
     data[index] = value;
 }
 
 int Array::get(size_t index) {
-    if (index < 0 || index > length - 1) return -9999;
+    if (index >= length) throw std::out_of_range("Out of range");
     return data[index];
 }
 
