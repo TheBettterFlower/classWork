@@ -151,6 +151,42 @@ public:
         }
     }
 
+    Array& operator=(const Array& other) {
+        if (this == &other) return *this;
+        delete[] data;length = other.length;
+        if (length > 0) {
+            data = new T[length]{};
+            for (size_t i = 0; i < length; i++) {
+                data[i] = other.data[i];
+            }
+        } else {
+            data = nullptr;
+        }
+        return *this;
+    }
+
+    Array(Array&& other) noexcept {
+    data = other.data;
+    length = other.length;
+
+    other.data = nullptr;
+    other.length = 0;
+    }
+
+    Array& operator=(Array&& other) noexcept {
+    if (this == &other) return *this;
+
+    delete[] data;
+
+    data = other.data;
+    length = other.length;
+
+    other.data = nullptr;
+    other.length = 0;
+
+    return *this;
+    }
+
     T* begin() noexcept { return data; }
     T* end() noexcept { return data + length; }
 

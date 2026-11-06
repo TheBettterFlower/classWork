@@ -1,6 +1,12 @@
 #include "../include/DynamicArray.h"
 #include <iostream>
 #include <string>
+#include <utility>
+
+template <typename T>
+void processArray(Array<T> arr) {
+    std::cout << "Внутри функции processArray: " << arr << "\n";
+}
 
 int main() {
     std::cout << "Проверка числового массива (int) и оператора <<\n";
@@ -108,6 +114,55 @@ int main() {
         x += 1;
     }
     std::cout << "\narr1: " << arr1 << "\n";
+
+    std::cout << "\nRule of Five\n";
+
+    
+    std::cout << "operator= (копирование)\n";
+    Array<int> assigned(1);
+    assigned = arr1;
+    std::cout << "assigned после assigned = arr1: " << assigned << "\n";
+
+    
+    Array<int>& ref_assigned = assigned;
+    assigned = ref_assigned;
+    std::cout << "assigned после самоприсваивания: " << assigned << "\n";
+
+    
+    Array<int> chain1(1), chain2(1);
+    chain1 = chain2 = arr1;
+    std::cout << "chain1 после chain1 = chain2 = arr1: " << chain1 << "\n";
+
+    
+    std::cout << "\nMove-конструктор\n";
+    Array<int> temp(3);
+    temp[0] = 100; temp[1] = 90; temp[2] = 80;
+    std::cout << "temp до move: " << temp << "\n";
+
+    Array<int> moved_construct(std::move(temp));
+    std::cout << "moved_construct (принял ресурсы): " << moved_construct << "\n";
+    std::cout << "temp после move (ресурсы обнулены): " << temp << "\n";
+
+    
+    std::cout << "\nMove-оператор присваивания\n";
+    Array<int> moved_assign(1);
+    moved_assign = std::move(moved_construct);
+    std::cout << "moved_assign (принял ресурсы): " << moved_assign << "\n";
+    std::cout << "moved_construct после move: " << moved_construct << "\n";
+
+    
+    std::cout << "\n--- 4. Передача в функцию до и после move ---\n";
+    Array<int> demo(2);
+    demo[0] = 42; demo[1] = 43;
+    std::cout << "demo до вызова processArray: " << demo << "\n";
+
+    
+    processArray(demo);
+    std::cout << "demo после передачи по значению (копия): " << demo << "\n";
+
+    
+    processArray(std::move(demo));
+    std::cout << "demo после передачи через std::move: " << demo << "\n";
 
     return 0;
 }
