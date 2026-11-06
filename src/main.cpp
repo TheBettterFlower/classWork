@@ -151,7 +151,7 @@ int main() {
     std::cout << "moved_construct после move: " << moved_construct << "\n";
 
     
-    std::cout << "\n--- 4. Передача в функцию до и после move ---\n";
+    std::cout << "\nПередача в функцию до и после move\n";
     Array<int> demo(2);
     demo[0] = 42; demo[1] = 43;
     std::cout << "demo до вызова processArray: " << demo << "\n";
