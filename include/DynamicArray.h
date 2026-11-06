@@ -75,6 +75,88 @@ public:
         }
     }
 
+    class ElementProxy {
+    private:
+        Array* array;
+        size_t index;
+    public:
+        ElementProxy(Array* array, size_t index) : array(array), index(index) {}
+
+        ElementProxy& operator=(const T& value) {
+            array->set(index, value);
+            return *this;
+        }
+
+        ElementProxy& operator=(const ElementProxy& other) {
+            array->set(index, other.operator const T&());
+            return *this;
+        }
+
+        operator const T&() const {
+            return array->data[index];
+        }
+    };
+
+    ElementProxy operator[](size_t index) {
+        if (index >= length) throw std::out_of_range("Out of range");
+        return ElementProxy(this, index);
+    }
+
+    const T& operator[](size_t index) const {
+        if (index >= length) throw std::out_of_range("Out of range");
+        return data[index];
+    }
+
+    bool operator==(const Array& other) const {
+        if (length != other.length) return false;
+        for (size_t i = 0; i < length; i++) {
+            if (data[i] != other.data[i]) return false;
+        }
+        return true;
+    }
+
+    bool operator!=(const Array& other) const {
+        return !(*this == other);
+    }
+
+    Array& operator+=(const Array& other) {
+        addArray(other);
+        return *this;
+    }
+
+    Array& operator-=(const Array& other) {
+        subArray(other);
+        return *this;
+    }
+
+    Array& operator+=(const T& scalar) {
+        if constexpr (!std::is_arithmetic_v<T>) {
+            throw std::bad_typeid();
+        } else {
+            for (size_t i = 0; i < length; i++) {
+                set(i, data[i] + scalar);
+            }
+            return *this;
+        }
+    }
+
+    Array& operator-=(const T& scalar) {
+        if constexpr (!std::is_arithmetic_v<T>) {
+            throw std::bad_typeid();
+        } else {
+            for (size_t i = 0; i < length; i++) {
+                set(i, data[i] - scalar);
+            }
+            return *this;
+        }
+    }
+
+    T* begin() noexcept { return data; }
+    T* end() noexcept { return data + length; }
+
+    const T* begin() const noexcept { return data; }
+    const T* end() const noexcept { return data + length; }
+
     friend std::ostream& operator<<(std::ostream& os, const Array<T>& arr) {
         os << "Array: [";
         for (size_t i = 0; i < arr.length; i++) {
