@@ -9,7 +9,7 @@ private:
     int* data;
     size_t length;
     static void checkv(const T& value) {
-        if constexpr (std::is_integer_v(value))  if (-100 < value && value > 100) throw std::invalid_argument("Invalid argument");
+        if constexpr (std::is_integer_v<T>)  if (-100 < value || value > 100) throw std::invalid_argument("Invalid argument");
     }
 public:
     explicit Array(size_t len) {
@@ -94,7 +94,7 @@ public:
 
 
 
-    Array::~Array () {
+    ~Array () {
         delete[] data;
         data = nullptr;
     }
